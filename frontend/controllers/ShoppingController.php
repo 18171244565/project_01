@@ -1,0 +1,260 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: lirui
+ * Date: 2018/3/9
+ * Time: 上午11:04
+ */
+
+namespace frontend\controllers;
+
+
+use common\models\Config;
+use common\models\FaceOrder;
+use common\models\Member;
+use common\models\Order;
+use common\models\UnitPrice;
+use common\models\WebConfig;
+use frontend\models\SelHandleForm;
+use frontend\models\ShoppingAuth;
+use yii\helpers\Json;
+use yii\helpers\Url;
+
+class ShoppingController extends HomeController
+{
+    public function init()
+    {
+        parent::init();
+        $shoppingAuth = new ShoppingAuth();
+        if (!$shoppingAuth->checkAuth()) {
+            Url::remember();
+            if (\Yii::$app->request->isAjax) {
+                return Json::encode(['code' => 0, 'message' => '登录失效', 'url' => Url::to('member/login-to-shopping')]);
+            }
+            return $this->redirect('member/login-to-shopping');
+        }
+    }
+
+    public function actionIndex()
+    {
+        // 触发生成单价
+        $stime = mktime(0, 0, 0);
+
+        $this->unit();
+        $data = UnitPrice::find()->asArray()->orderBy('id desc')->one();
+        if ($data) {
+            $now_price = $data['price'];
+            $max = UnitPrice::find()->where(['>=', 'create_time', $stime])->asArray()->max('price');
+        } else {
+            $m_p = Config::find()->where(['key' => 'm_p'])->asArray()->one();
+            $now_price = $m_p['value'];
+            $max = $now_price;
+        }
+        $d_t_d = (new Config())->getConfigByKey('d_t_d');
+        $time = $this->getTime();
+        $price = $this->getPrice();
+        $stime = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+        // 当天交易完成的
+        //$orderNum = Order::find()->where("status=4 AND finish_time>$stime")->count();
+        $orderNum = Order::find()->where("status=4 AND finish_time>$stime")->sum('number');
+        $orderNum = $orderNum ? $orderNum : 0;
+        //var_dump(FaceOrder::getMemberFaceOrderList($this->uid));die;
+        return $this->render('index', [
+            'active' => 4,
+            'time' => $time,
+            'price' => $price,
+            'now_price' => $now_price,
+            'max' => $max,
+            'd_t_d' => $d_t_d,
+            'face_order_list' => FaceOrder::getMemberFaceOrderList($this->uid),
+            'target_order_list' => FaceOrder::getTargetFaceOrderList($this->uid),
+            'money_name' => (new WebConfig())->getConfigByKey('money_name'),
+            'orderNum' => $orderNum,
+        ]);
+    }
+
+    /**
+     * 点对点处理
+     */
+    public function actionSelHandle()
+    {
+        if (\Yii::$app->request->isAjax) {
+            /*$session = \Yii::$app->session;
+            $code = \Yii::$app->request->post('code');
+            if (!$code || $code != $session->get('s_code')) {
+                return Json::encode(['code' => 0, 'message' => '请输入正确的验证码']);
+            }*/
+			$max_count=(new WebConfig())->getConfigByKey('faceorder');
+       		$counts = FaceOrder::find()->where("member_id=".$this->uid." AND create_time>".strtotime(date("Y-m-d 00:00:00")))->count();
+			if($counts>$max_count-1){
+                return Json::encode(['code' => 0, 'message' => '一天最多交易'.$max_count.'次']);
+			}
+
+            $model = new SelHandleForm();
+            $model->attributes = \Yii::$app->request->post();
+            return Json::encode($model->handle());
+        }
+
+        return 'error';
+    }
+
+
+    /**
+     * 点对点须知
+     */
+    public function actionXuzhi()
+    {
+        return $this->render('xuzhi');
+    }
+
+    public function actionShowInfo()
+    {
+        $memberId = \Yii::$app->request->get('memberId');
+        $model = new Member();
+        $info = $model->getUserInfo($memberId);
+
+        return Json::encode($info);
+    }
+
+    public function actionPay()
+    {
+        if (\Yii::$app->request->isPost) {
+            $number = \Yii::$app->request->post('number');
+            try {
+                $order = FaceOrder::getOrderByNumber($number);
+            } catch (\Exception $e) {
+                return Json::encode(['code' => 0, 'message' => '操作错误']);
+            }
+            if (empty(trim($order->image))) {
+                return Json::encode(['code' => 0, 'message' => '请先上传打款凭据']);
+            }
+            if ($order->status != FaceOrder::STATUS_PAY) {
+                return Json::encode(['code' => 0, 'message' => '非法操作']);
+            }
+            $order->status = FaceOrder::STATUS_CONFIRM;
+            $order->pay_time = time();
+
+            if ($order->save()) {
+
+                return Json::encode(['code' => 1, 'message' => '操作成功']);
+            }
+            return Json::encode(['code' => 0, 'message' => '操作失败']);
+        }
+    }
+
+    public function actionOrderHandle()
+    {
+        if (\Yii::$app->request->isAjax) {
+            $type = \Yii::$app->request->post('type');
+            $number = \Yii::$app->request->post('number');
+            try {
+                $order = FaceOrder::getOrderByNumber($number);
+            } catch (\Exception $e) {
+                return Json::encode(['code' => 0, 'message' => '操作错误']);
+            }
+
+            $model = new SelHandleForm();
+            $response = [];
+            if ($type == 'confirm') {
+
+                if ($order->target_member_id != $this->uid) {
+                    return Json::encode(['code' => 0, 'message' => '操作错误']);
+                }
+
+                if ($order->status != FaceOrder::STATUS_CONFIRM) {
+                    return Json::encode(['code' => 0, 'message' => '操作错误']);
+                }
+
+                $result = $model->confirmOrder($order);
+                $response = $result ? ['code' => 1, 'message' => '交易成功'] : ['code' => 0, 'message' => '交易失败'];
+
+            } elseif ($type == 'cancel') {
+
+                if ($order->member_id != $this->uid) {
+                    return Json::encode(['code' => 0, 'message' => '操作错误']);
+                }
+
+                if ($order->status != FaceOrder::STATUS_PAY) {
+                    return Json::encode(['code' => 0, 'message' => '操作错误']);
+                }
+
+                $result = $model->cancelOrder($order);
+                $response = $result ? ['code' => 1, 'message' => '取消成功'] : ['code' => 0, 'message' => '取消失败'];
+            }
+
+            return Json::encode($response);
+
+        }
+
+        return 'error';
+
+    }
+
+    protected function unit()
+    {
+        $obj = new UnitPrice();
+        $obj->setData();
+    }
+
+
+    protected function getTime()
+    {
+
+        $time = mktime(date('H'), 0, 0);
+        $s1 = $time;
+        $s2 = $s1 - 3600;
+        $s3 = $s2 - 3600;
+        $s4 = $s3 - 3600;
+        $s5 = $s4 - 3600;
+        $s6 = $s5 - 3600;
+        $s7 = $s6 - 3600;
+        $s1 = date('H:i', $s1);
+        $s2 = date('H:i', $s2);
+        $s3 = date('H:i', $s3);
+        $s4 = date('H:i', $s4);
+        $s5 = date('H:i', $s5);
+        $s6 = date('H:i', $s6);
+        $s7 = date('H:i', $s7);
+        $data = "'{$s7}', '{$s6}', '{$s5}', '{$s4}', '{$s3}', '{$s2}', '{$s1}'";
+        return $data;
+    }
+
+    protected function getPrice()
+    {
+        //$data = UnitPrice::find()->asArray()->limit(7)->orderBy('id desc')->all();
+        // 只查询当天单价
+        $stime = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+        $data = UnitPrice::find()->asArray()->limit(7)
+            ->where(['>', 'create_time', $stime])
+            ->orderBy('id desc')->all();
+        $d = [];
+        if (count($data) >= 7) {
+            foreach ($data as $v) {
+                $d[] = $v['price'];
+            }
+        } else if (count($data) == 0) {
+            $m_p = Config::find()->where(['key' => 'm_p'])->asArray()->one();
+            $m_p = $m_p['value'];
+            for ($k = 1; $k <= 7; $k++) {
+                $d[] = $m_p;
+            }
+        } else {
+            $i = 0;
+            $p = '';
+            foreach ($data as $v) {
+                $i++;
+                $p = $v['price'];
+                $d[] = $v['price'];
+            }
+            for ($j = 1; $j <= 7 - $i; $j++) {
+                $d[] = $p;
+            }
+        }
+        $str = '';
+        for ($h = 6; $h >= 0; $h--) {
+            $str .= $d[$h] . ',';
+        }
+        $str = substr($str, 0, -1);
+        return $str;
+    }
+}

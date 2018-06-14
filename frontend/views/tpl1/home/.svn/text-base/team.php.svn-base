@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>矿池</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="/tpl/css/mui.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/tpl/css/own.css">
+    <link rel="stylesheet" href="/tpl/css/public.css">
+    <link rel="stylesheet" href="/tpl/css/index.css">
+    <link rel="stylesheet" href="/tpl/css/kuangchi.css">
+</head>
+<body>
+<div class="main">
+    <header class="head own-main-background-color">
+        <h1 id="nav-title" class="mui-title">矿池</h1>
+    </header>
+    <div class="content mui-content" >
+        <div class="mui-scroll-wrapper" id="pullrefresh">
+            <div class="mui-scroll">
+                <div class="kuangchibox">
+                    <ul class="kuangjinum">
+                        <li><p>矿池算力(T)</p>
+                            <h2>(统计可能有3分钟延迟)</h2>
+                            <div v-text="myHomePower==null?'0':myHomePower"><?= $info['team_num'] ?></div>
+                        </li>
+                        <li v-on:tap="looknum">
+                            <p>团队人数</p>
+                            <h2>(统计可能有3分钟延迟)</h2>
+                            <div v-text="myHomeAll==null?'0':myHomeAll"><?= $info['team_count'] ?></div>
+                        </li>
+                    </ul>
+                    <ul class="tapbox">
+                        <li class="my-nav tapactive" data-index="show1"><span>直推</span></li>
+                        <li class="my-nav" data-index="show2"><span>团队</span></li>
+                    </ul>
+                    <ul class="showbox">
+                        <li id="show1" class="show showactive">
+                            <div class="mui-scroll-wrapper scw" id="one">
+                                <ul class="mui-scroll ms" id="scroll1">
+                                    <?php foreach ($d as $v) { ?>
+                                        <?php $userInfo = $member->getUserInfo($v['id']); ?>
+                                    <li v-for="(zitem,index) in zhi"
+                                        v-show="zitem.myId!=''">
+                                        <div class="head"><img src="/tpl/img/vrcicon.png" alt=""></div>
+                                        <div class="leftbox"><p><span v-text='"ID："+zitem.myId'>用户: <?= $userInfo['mobile'] ?></span></p>
+                                            <p v-text="mygrade(zitem.grade)"><?= $member->getLevelName($userInfo['level']) ?></p></div>
+                                        <div class="middlebox"><p v-text='"算力："+zitem.power'>算力：<?= $member->getUserProductNum($v['id']) ?></p>
+                                            <p v-text='"直推："+zitem.myHomeCount+"人"'>直推：<?= $member->getT1Count($v['id']) ?>人</p></div>
+                                        <div class="rightbox"><p v-text="'矿机：'+zitem.tower+'台'">矿机：<?= $member->getUserProductCount($v['id']) ?>台</p>
+                                            <p v-text='"团队："+zitem.myHome+"人"'>团队：<?= $userInfo['team_count'] ?>人</p></div>
+                                    </li>
+                                    <?php } ?>
+                                </ul>
+                            </div>
+                        </li>
+                        <li id="show2" class="show">
+                            <div class="mui-scroll-wrapper scw" id="two">
+                                <ul class="mui-scroll ms" id="scroll2">
+                                    <?php foreach ($o as $v) { ?>
+                                    <li v-for="(titem,index) in tuan" v-show="titem.myId!=''">
+                                        <div class="head"><img src="/tpl/img/vrcicon.png" alt=""></div>
+                                        <div class="leftbox"><p><span v-text='"ID："+titem.myId'><?= $v['mobile'] ?>-<?= $v['r'] ?></span></p>
+                                            <p v-text="mygrade(titem.grade)"><?= $member->getLevelName($v['level']) ?></p></div>
+                                        <!--
+                                        <div class="middlebox"><p v-text='"算力："+titem.power'></p>
+                                            <p v-text='"直推："+titem.myHomeCount+"人"'></p></div>
+                                        <div class="rightbox"><p v-text="'矿机：'+titem.tower+'台'"></p>
+                                            <p v-text='"团队："+titem.myHome+"人"'></p></div>-->
+                                    </li>
+                                    <?php } ?>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!--<div id="popover" class="mui-popover mui-popover-bottom">
+                    <div v-show="onepopo==true">
+                        <div class="toptitle"><p>直推信息</p>
+                            <div class="iconfont closebtn" v-on:tap="closeinfo">&#xe65d;</div>
+                        </div>
+                        <ul class="zhituibox">
+                            <li><span>总直推数:</span> <span v-text="zhituiobj.num"></span></li>
+                            <li><span>四级矿工:</span> <span v-text="zhituiobj.four"></span></li>
+                            <li><span>三级矿工:</span> <span v-text="zhituiobj.three"></span></li>
+                            <li><span>二级矿工:</span> <span v-text="zhituiobj.two"></span></li>
+                            <li><span>一级矿工:</span> <span v-text="zhituiobj.one"></span></li>
+                            <li><span>在产矿工:</span> <span v-text="zhituiobj.common"></span></li>
+                        </ul>
+                    </div>
+                    <div class="account" id="account" v-show="twopopo==true">
+                        <div class="toptitle"><p>个人信息</p>
+                            <div class="iconfont closebtn" v-on:tap="closeinfo">&#xe65d;</div>
+                        </div>
+                        <ul class="conlist">
+                            <li><span>ID</span> <input type="text" name="" id="accountName" :value="tradeinfo.id"
+                                                       class="accountinput" readonly>
+                                <button type="button" class="copy" data-clipboard-target="#accountName">复制</button>
+                            </li>
+                            <li><span>TEL</span> <input type="text" name="" id="openingBank" :value="tradeinfo.tel"
+                                                        class="accountinput" readonly>
+                                <button type="button" class="copy" data-clipboard-target="#openingBank">复制</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+    </div>
+    <div class="shuaxin"><span class="iconfont" style="font-size:.4rem">&#xe611;</span></div>
+    <?php include_once './tpl/nav.php' ?>
+
+</div>
+<script src="/tpl/js/libs/jquery.min.js" charset="utf-8"></script>
+<script src="/tpl/js/mui.min.js"></script>
+<script src="/tpl/js/function.js" charset="utf-8"></script>
+<script charset="UTF-8">
+    mui('#pullrefresh').scroll().setStopped(true)
+    //导航切换
+    $(".my-nav").click(function () {
+        $(this).addClass("tapactive").siblings().removeClass("tapactive");
+        $(".show").hide().eq($(this).index()).show();
+    })
+</script>
+</body>
+</html>

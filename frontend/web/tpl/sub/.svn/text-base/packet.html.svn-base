@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+	<link href="../css/mui.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="../css/own.css">
+	<link rel="stylesheet" href="../css/public.css">
+	<link rel="stylesheet" href="../css/packet.css">
+	<style>
+		.mui-scroll-wrapper {
+			position: absolute;
+			z-index: 2;
+			top: 40px;
+			bottom: 0;
+			left: 0;
+			overflow: hidden;
+			width: 100%;
+		}
+		.nav-hong{
+			position: absolute;
+			top: 13px;
+			right: 15px;
+			color: gray;
+		}
+	</style>
+</head>
+<body>
+<header class="mui-bar mui-bar-nav own-main-background-color" style="position: relative;">
+	<span onclick="javascript :history.go(-1);" class="back mui-icon mui-icon-left-nav mui-pull-left"></span>
+	<h1 class="mui-title">抢红包</h1>
+	<span class="nav-hong"><a href="./packetinfo.html">红包规则</a></span>
+</header>
+<div class="mui-content" id="packet">
+	<div class="mui-scroll-wrapper" id="gg">
+		<div class="mui-scroll" style="padding-top:.4rem">
+			<ul class="packetbox">
+				<li>
+					<div><img src="../img/packet/packet.png" alt="" > <img src="../img/packet/nopacket.png">
+						<div class="flexmiddle" style="margin-top: 5px;">
+							<p>恭喜发财，大吉大利</p>
+							<h2 style="color: #8f8f94;">开枪时间：2018-2-15 22:00</h2></div>
+					</div>
+					<div class="flexright">
+						<img src="../img/packet/noget.png" >
+						<!--<img src="../img/packet/get.png" > -->
+						<!--<img src="../img/packet/nomore.png">-->
+						<!--<img src="../img/packet/already.png" >-->
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="markbox" style="display: none;">
+			<div class="mark">
+				<div class="closebtn" id="close">+</div>
+				<img src="../img/packet/logo.png" class="logo">
+				<p class="info">恭喜发财，大吉大利</p>
+				<div class="openbtn"></div>
+			</div>
+		</div>
+	</div>
+	<div class="shuaxin"><span class="iconfont" style="font-size:.4rem">&#xe611;</span></div>
+</div>
+<script src="../js/libs/jquery.min.js" charset="utf-8"></script>
+<script src="../js/mui.min.js"></script>
+<script src="../js/libs/vue.min.js" charset="utf-8"></script>
+<script src="../js/sub/packet.js" charset="utf-8"></script>
+<script src="../js/function.js" charset="utf-8"></script>
+<script>
+	$("#close").click(function () {
+		$(".markbox").hide();
+	})
+</script>
+</body>
+</html>

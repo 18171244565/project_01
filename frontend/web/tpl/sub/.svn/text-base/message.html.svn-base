@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>消息通知</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+	<link href="../css/mui.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="../css/own.css">
+	<link rel="stylesheet" href="../css/public.css">
+	<link rel="stylesheet" href="../css/message.css">
+	
+</head>
+<body>
+<header class="mui-bar mui-bar-nav own-main-background-color">
+	<span onclick="javascript :history.go(-1);" class="back mui-icon mui-icon-left-nav mui-pull-left"></span>
+	<h1 class="mui-title">消息通知</h1>
+</header>
+<div class="mui-content" id="message">
+	<div class="mui-scroll-wrapper" id="gg">
+		<div class="mui-scroll" style="padding-top:.4rem">
+			<ul class="messagebox">
+				<li><a class="messlist" href="messinfo.html" >
+					<div class="time">11月11日</div>
+					<div class="middlebox">
+						<div class="title" >新订单</div>
+						<div class="jiantou iconfont">&#xe603;</div>
+					</div>
+					<div class="info">
+						<div class="red" ></div>
+						<div class="infocon" >您有一条新的预约订单</div>
+					</div>
+				</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<script src="../js/libs/jquery.min.js" charset="utf-8"></script>
+<script src="../js/mui.min.js"></script>
+<script src="../js/libs/vue.min.js" charset="utf-8"></script>
+<script src="../js/sub/message.js" charset="utf-8"></script>
+<script src="../js/function.js" charset="utf-8"></script>
+</body>
+</html>

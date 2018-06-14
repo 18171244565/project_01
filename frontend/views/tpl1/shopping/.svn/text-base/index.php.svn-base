@@ -1,0 +1,570 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>矿市</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="/tpl/css/mui.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/tpl/css/own.css">
+    <link rel="stylesheet" href="/tpl/css/public.css">
+    <link rel="stylesheet" href="/tpl/css/index.css">
+    <link rel="stylesheet" href="/tpl/css/kuangshi.css">
+    <style>
+        .chart {
+            height: 200px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .chart > div {
+            width: 100% !important;
+        }
+    </style>
+</head>
+<body>
+<div class="main">
+    <header class="head own-main-background-color">
+        <h1 id="nav-title" class="mui-title">矿池</h1>
+    </header>
+    <div class="content mui-content">
+        <div class="mui-scroll-wrapper">
+            <div class="mui-scroll">
+                <div class="kuangshibox" style="position:relative">
+                    <ul class="kuangshinum">
+                        <li><span v-text="nowprice"><?= $now_price ?></span><i
+                                    style="font-size:.24rem;font-style:normal"> 元RMB</i>
+                        </li>
+                        <li><p v-text="'高：'+high">高：<?= $max ?></p>
+
+                            <p v-text="'量：'+amount">量：<?= $orderNum ?></p></li>
+                    </ul>
+                    <ul class="tapbox">
+                        <li class="my-nav tapactive" data-index="1"><span>价格<i></i></span></li>
+                        <li class="my-nav" data-index="3"><span>点对点<i></i></span></li>
+                        <li class="my-nav" data-index="4"><span>信箱<i></i></span></li>
+                    </ul>
+                    <ul class="showbox">
+                        <li id="show1" class="show showactive">
+                            <div class="mui-scroll-wrapper scw">
+                                <div class="mui-scroll ms" id="scroll1">
+                                    <div class="mui-content-padded">
+                                        <div class="chart" id="lineChart" style="height:4rem">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li id="show3" class="show">
+                            <div class="mui-scroll-wrapper scw">
+                                <div class="mui-scroll ms" id="scroll3">
+                                    <ul class="inputbox">
+                                        <li class="input"><label for="idnum">用户</label>
+                                            <input type="text" id="idnum" placeholder="请输入买家的用户号">
+                                        </li>
+                                        <li class="input"><label for="selnum">数量</label>
+                                            <input type="text" id="selnum" placeholder="请输入售出的数量">
+                                        </li>
+                                        <li>
+                                            <p style="font-size:.22rem;margin-top:.1rem">*交易手续费<span
+                                                        v-text="feeres"></span>；如转100 <?= MONEY_NAME ?>，系统将扣
+                                                <span
+                                                        v-text="feenum"><?= round(100 * (1 + $d_t_d * 0.01), 5) ?></span><?= MONEY_NAME ?>
+                                                。</p></li>
+                                        <li>
+                                            <button class="selbtn" id="selbtn">卖出</button>
+                                        </li>
+                                    </ul>
+                                    <div class="xuzhi" style="text-align:center;padding-top:.15rem;line-height:.3rem">
+                                        <!--
+                                        <a
+                                            href="<?= \yii\helpers\Url::to('shopping/xuzhi') ?>"
+                                            data-title="点对点交易须知"><span
+                                                class="iconfont">&#xe67f;</span> <span>点对点交易须知</span></a>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <!--
+                        <li id="show4" class="show">
+                            <div class="mui-scroll-wrapper scw" id="two">
+                                <div class="mui-scroll ms" id="scroll4">
+                                    <ul class="messagebox" href="#topPopover">
+                                        <?php if ($face_order_list): ?>
+                                            <?php foreach ($face_order_list as $order): ?>
+                                                <li v-for="lists in list">
+                                                    <div class="code">
+                                                        <div class="codeleft">
+                                                            <div class="circle"></div>
+                                                            <p v-text="'单号：'+lists.code">
+                                                                单号：<?= $order->order_number; ?></p></div>
+                                                        <div class="time"
+                                                             v-text="lists.time"><?= date('m月d日 H时i分', $order->create_time) ?></div>
+                                                    </div>
+                                                    <div class="info" v-text="lists.remark">
+                                                        收到<?= $order->target_member_name ?>
+                                                        （ID：<?= $order->target_member_id ?>
+                                                        ）转入<?= sprintf('%.2f', $order->money); ?><?= $money_name ?>
+                                                        ，请确认接收。
+                                                    </div>
+                                                    <div class="btnbox">
+                                                        <button class="look" type="button" onclick="showUserInfo(this)"
+                                                                data-url="<?= \yii\helpers\Url::to(['shopping/show-info', 'memberId' => $order->target_member_id]) ?>">
+                                                            交易账号
+                                                        </button>
+                                                        <button class="succ" type="button" onclick="confirmOrder(this)"
+                                                                data-number="<?= $order->order_number; ?>">确认交易
+                                                        </button>
+                                                        <button class="esc" type="button" onclick="cancelOrder(this)"
+                                                                data-number="<?= $order->order_number; ?>">取消交易
+                                                        </button>
+                                                    </div>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>-->
+
+                        <li id="show4" class="show">
+                            <div class="mui-scroll-wrapper scw" id="two">
+                                <div class="mui-scroll ms" id="scroll4">
+                                    <ul class="messagebox" href="#topPopover">
+                                        <!---付钱-->
+                                        <?php if ($face_order_list): ?>
+                                            <?php foreach ($face_order_list as $order): ?>
+                                                <li v-for="lists in list">
+                                                    <div class="code">
+                                                        <div class="codeleft">
+                                                            <div class="circle"></div>
+                                                            <p v-text="'单号：'+lists.code">
+                                                                单号：<?= $order->order_number; ?></p></div>
+                                                        <div class="time"
+                                                             v-text="lists.time"><?= date('m月d日 H时i分', $order->create_time) ?></div>
+                                                    </div>
+                                                    <div class="info" v-text="lists.remark">
+                                                        收到<?= $order->target_member_name ?>
+                                                        （ID：<?= $order->target_member_id ?>
+                                                        ）转入<?= sprintf('%.2f', $order->money); ?><?= $money_name ?>
+                                                        ，请确认接收。
+                                                    </div>
+                                                    <div class="btnbox">
+                                                        <button class="look" style="background: #ECC442;color: #fff;"
+                                                                type="button" onclick="showUserInfo(this)"
+                                                                data-url="<?= \yii\helpers\Url::to(['shopping/show-info', 'memberId' => $order->target_member_id]) ?>">
+                                                            交易账号
+                                                        </button>
+                                                        <?php if ($order->status == 2): ?>
+                                                            <button class="succ" id="select_files"
+                                                                    style="margin: 0 .1rem;border-color:#ECC442;color:#ECC442 "
+                                                                    onclick="selectFiles()" type="button">
+                                                                <?php if (!empty(trim($order->image))): ?>
+                                                                    重新上传
+                                                                <?php endif; ?>
+                                                                <?php if (empty(trim($order->image))): ?>
+                                                                    上传凭据
+                                                                <?php endif; ?>
+                                                            </button>
+                                                            <input type="file" data-id="<?= $order->id ?>"
+                                                                   id="image_files"
+                                                                   data-url="<?= \yii\helpers\Url::to('upload/uploads') ?>"
+                                                                   onchange="uploadImages(this)" style="display: none">
+                                                        <?php endif; ?>
+                                                        <button class="succ" id="show_image" onclick="showImage(this)"
+                                                                data-image="<?= $order->image ?>"
+                                                                <?php if (empty(trim($order->image))): ?>style="display: none" <?php endif; ?>
+                                                                style="margin: 0 .1rem;border-color:#ECC442;color:#ECC442 "
+                                                                type="button"> 查看凭据
+                                                        </button>
+                                                        <?php if ($order->status == 2): ?>
+                                                            <button class="succ"
+                                                                    style="margin: 0 .1rem;border-color:#ECC442;color:#ECC442 "
+                                                                    type="button" onclick="confirmPay(this)"
+                                                                    data-number="<?= $order->order_number; ?>">确认付款
+                                                            </button>
+                                                            <button class="esc"
+                                                                    style="margin: 0 .1rem;border-color:#ECC442;color:#ECC442 "
+                                                                    type="button" onclick="cancelOrder(this)"
+                                                                    data-number="<?= $order->order_number; ?>">取消交易
+                                                            </button>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                        <!---付钱结束-->
+                                        <?php if ($target_order_list): ?>
+                                            <?php foreach ($target_order_list as $order): ?>
+                                                <li v-for="lists in list">
+                                                    <div class="code">
+                                                        <div class="codeleft">
+                                                            <div class="circle"></div>
+                                                            <p v-text="'单号：'+lists.code">
+                                                                单号：<?= $order->order_number; ?></p></div>
+                                                        <div class="time"
+                                                             v-text="lists.time"><?= date('m月d日 H时i分', $order->create_time) ?></div>
+                                                    </div>
+                                                    <div class="info" v-text="lists.remark">
+                                                        卖给<?= $order->getSaleMemberName() ?>
+                                                        （ID：<?= $order->member_id ?>
+                                                        ）转入<?= sprintf('%.2f', $order->money); ?><?= $money_name ?>
+                                                        ，请确认收款。
+                                                    </div>
+                                                    <div class="btnbox">
+                                                        <button class="look"
+                                                                style="margin: 0 .1rem;border-color:#ECC442;color:#ECC442 "
+                                                                type="button" onclick="showUserInfo(this)"
+                                                                data-url="<?= \yii\helpers\Url::to(['shopping/show-info', 'memberId' => $order->member_id]) ?>">
+                                                            交易账号
+                                                        </button>
+                                                        <?php if (!empty(trim($order->image))): ?>
+                                                            <button class="succ" id="show_image"
+                                                                    onclick="showImage(this)"
+                                                                    data-image="<?= $order->image ?>"
+                                                                    style="margin: 0 .1rem;border-color:#ECC442;color:#ECC442 "
+                                                                    type="button"> 查看凭据
+                                                            </button>
+                                                        <?php endif; ?>
+                                                        <?php if ($order->status == 3): ?>
+                                                            <button class="succ"
+                                                                    style="margin: 0 .1rem;border-color:#ECC442;color:#ECC442 "
+                                                                    type="button" onclick="confirmOrder(this)"
+                                                                    data-number="<?= $order->order_number; ?>">确认收款
+                                                            </button>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+
+
+                    </ul>
+                    <ul class="guadanbox" id="guadanbox">
+                        <li><a href="javascript:void(0)" data-type="1" data-title="新手挂单">
+                                <div class="gdbg gd1"></div>
+                                <span>新手挂单</span></a></li>
+                        <li><a href="javascript:void(0)" data-type="2" data-title="进阶挂单">
+                                <div class="gdbg gd3"></div>
+                                <span>进阶挂单</span></a></li>
+                        <li><a href="javascript:void(0)" data-type="3" data-title="高手挂单">
+                                <div class="gdbg gd2"></div>
+                                <span>高手挂单</span></a></li>
+                        <li><a href="javascript:void(0)" data-type="4" data-title="国际挂单">
+                                <div class="gdbg gd4"></div>
+                                <span>国际挂单</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <?php include_once './tpl/nav.php' ?>
+</div>
+<div id="popover" class="mui-popover mui-popover-bottom">
+    <div class="account" id="account">
+        <div class="toptitle"><p>卖家资料</p>
+
+            <p>买家资料</p>
+
+            <div class="iconfont closebtn">&#xe65d;</div>
+        </div>
+        <ul class="conlist">
+            <li>
+                <span>开户名</span>
+                <input type="text" name="" id="accountName" class="accountinput" readonly>
+                <button type="button" class="copy" data-clipboard-target="#accountName">复制</button>
+            </li>
+            <li>
+                <span>开户行</span>
+                <input type="text" name="" id="openingBank" class="accountinput" readonly>
+                <button type="button" class="copy" data-clipboard-target="#openingBank">复制</button>
+            </li>
+            <li>
+                <span>账号</span>
+                <input type="text" name="" id="cardNumber" class="accountinput" readonly>
+                <button type="button" class="copy" data-clipboard-target="#cardNumber">复制</button>
+            </li>
+            <li>
+                <span>微信</span>
+                <input type="text" name="" id="weixin" class="accountinput" readonly>
+                <button type="button" class="copy" data-clipboard-target="#weixin">复制</button>
+            </li>
+            <li>
+                <span>支付宝</span>
+                <input type="text" name="" id="alipay" class="accountinput" readonly>
+                <button type="button" class="copy" data-clipboard-target="#alipay">复制</button>
+            </li>
+            <li>
+                <span>手机号</span>
+                <input type="text" name="" id="tel" class="accountinput" readonly>
+                <button type="button" class="copy" data-clipboard-target="#tel">复制</button>
+            </li>
+            <li><p>请严格按照以上资料进行打款交易，请勿相信中介！非平台公布资料交易，后果自负！</p></li>
+        </ul>
+    </div>
+</div>
+<div class="shuaxin"><span class="iconfont" style="font-size:.4rem">&#xe611;</span></div>
+
+<script src="/tpl/js/libs/jquery.min.js" charset="utf-8"></script>
+<script src="/tpl/js/mui.min.js"></script>
+<script src="/tpl/js/libs/clipboard.min.js" charset="utf-8"></script>
+<script src="/tpl/js/libs/echarts.common.min.js" charset="utf-8"></script>
+<script src="/tpl/js/libs/myzhexian.js" charset="utf-8"></script>
+<script src="/tpl/js/function.js" charset="utf-8"></script>
+<script>
+    var option1 = {
+        legend: {
+            data: ["实时价格"],
+            left: "left",
+            tooltip: {
+                show: !0
+            },
+            textStyle: {
+                color: "#02d2f5"
+            }
+        },
+        tooltip: {
+            show: !0
+        },
+        grid: {
+            x: 35,
+            x2: 10,
+            y: 30,
+            y2: 25
+        },
+        toolbox: {
+            show: !1,
+            feature: {
+                mark: {
+                    show: !0
+                },
+                dataView: {
+                    show: !0,
+                    readOnly: !1
+                },
+                magicType: {
+                    show: !0,
+                    type: ["line", "bar"]
+                },
+                restore: {
+                    show: !0
+                },
+                saveAsImage: {
+                    show: !0
+                }
+            }
+        },
+        calculable: !1,
+        xAxis: [{
+            type: "category",
+            data: [<?= $time ?>]
+        }],
+        yAxis: [{
+            type: "value",
+            splitArea: {
+                show: !1
+            }
+        }],
+        series: [{
+            name: "实时价格",
+            type: "line",
+            data: [<?= $price ?>],
+            areaStyle: {
+                normal: {
+                    color: "rgba(2,210,245,0.25)"
+                }
+            }
+        }]
+    }
+    var t = echarts.init(document.getElementById("lineChart"), "myzhexian");
+    setTimeout(function () {
+        t.setOption(option1)
+    }, 500);
+
+    //导航切换
+    $(".my-nav").click(function () {
+        $(this).addClass("tapactive").siblings().removeClass("tapactive");
+        $(".show").hide().eq($(this).index()).show();
+    })
+</script>
+
+<script>
+    function selectFiles() {
+        $("#image_files").click();
+    }
+
+    function uploadImages(target) {
+        var $this = $(target);
+        var url = $this.attr('data-url');
+        var file = target.files[0];
+        var orderId = $this.attr('data-id');
+        if (file.length == 0) {
+            mui.alert('请选择需要上传的图片');
+            return false;
+        }
+        var token = $("meta[name=token]").attr('content');
+        var data = new FormData();
+        data.append('_csrf-frontend', token);
+        data.append('UploadForm[file]', file);
+        data.append('orderId', orderId);
+        $("#select_file").html('上传中...');
+        $("#select_file").attr('disabled', true);
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            processData: false,  // 告诉jQuery不要去处理发送的数据
+            contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+            dataType: 'json',
+            success: function (response) {
+                $("#select_files").html('重新上传');
+                $("#select_files").attr('disabled', false);
+                if (response.code == 0) {
+                    mui.alert(response.message);
+                } else {
+                    $("#show_image").attr('data-image', response.url);
+                    $("#show_image").show();
+                    mui.alert('上传成功');
+                }
+            }
+        })
+    }
+
+    function confirmPay(target) {
+        var $this = $(target);
+        var number = $this.attr('data-number');
+        $this.html('处理中...');
+        $this.attr('disabled', true);
+        var url = "<?= \yii\helpers\Url::to('shopping/pay') ?>";
+        var token = "<?= \Yii::$app->getRequest()->getCsrfToken() ?>";
+        $.post(url, {number: number, '_csrf-frontend': token}, function (response) {
+            if (response.code == 0) {
+                mui.alert(response.message);
+                $this.attr('disabled', false);
+                $this.html('确认付款');
+                $(this).html('确认交易');
+            } else {
+                mui.alert(response.message, function () {
+                    window.location.reload();
+                });
+            }
+        }, 'json')
+    }
+</script>
+
+<script>
+    var clipboard = new Clipboard('.copy');
+    clipboard.on('success', function (e) {
+        mui.alert('复制成功!')
+        e.clearSelection();
+    });
+    clipboard.on('error', function (e) {
+        mui.alert('复制成功!')
+        e.clearSelection();
+    });
+    mui('#popover').on('tap', '.closebtn', function () {
+        mui('#popover').popover('hide');
+    });
+
+    $(function () {
+        var selUrl = "<?= \yii\helpers\Url::to('shopping/sel-handle') ?>";
+        var token = "<?= \Yii::$app->getRequest()->getCsrfToken() ?>";
+        $("#selbtn").click(function () {
+            var idnum = $("#idnum").val();
+            if (!idnum) {
+                mui.alert('请填写买家的用户号');
+                return false;
+            }
+            var selnum = $("#selnum").val();
+            if (!selnum) {
+                mui.alert('请填写转让的数量');
+                return false;
+            }
+            if (!(/^\d+(\.\d{1,2})?$/.test(selnum))) {
+                mui.alert('请填写正确的转让数量');
+                return false;
+            }
+            $(this).html('处理中...');
+            $(this).attr('disabled', true);
+            var $this = $(this);
+            $.post(selUrl, {idNum: idnum, selNum: selnum, '_csrf-frontend': token}, function (response) {
+                if (response.code == 0) {
+                    mui.alert(response.message);
+                    $this.attr('disabled', false);
+                    $this.html('卖出');
+                } else {
+                    mui.alert(response.message, function () {
+                        window.location.reload();
+                    });
+                }
+
+            }, 'json')
+        })
+    })
+
+    function confirmOrder(target) {
+        var $this = $(target);
+        var number = $this.attr('data-number');
+        $this.html('处理中...');
+        $this.attr('disabled', true);
+        var url = "<?= \yii\helpers\Url::to('shopping/order-handle') ?>";
+        var token = "<?= \Yii::$app->getRequest()->getCsrfToken() ?>";
+        $.post(url, {number: number, '_csrf-frontend': token, type: 'confirm'}, function (response) {
+            if (response.code == 0) {
+                mui.alert(response.message);
+                $this.attr('disabled', false);
+                $(this).html('确认交易');
+            } else {
+                mui.alert(response.message, function () {
+                    window.location.reload();
+                });
+            }
+        }, 'json')
+
+    }
+
+    function cancelOrder(target) {
+        var $this = $(target);
+        var number = $this.attr('data-number');
+        $this.html('处理中...');
+        $this.attr('disabled', true);
+        var url = "<?= \yii\helpers\Url::to('shopping/order-handle') ?>";
+        var token = "<?= \Yii::$app->getRequest()->getCsrfToken() ?>";
+        $.post(url, {number: number, '_csrf-frontend': token, type: 'cancel'}, function (response) {
+            if (response.code == 0) {
+                mui.alert(response.message);
+                $this.attr('disabled', false);
+                $(this).html('取消交易');
+            } else {
+                mui.alert(response.message, function () {
+                    window.location.reload();
+                });
+            }
+        }, 'json')
+    }
+
+    mui("#guadanbox").on("tap", "a", function () {
+        var url = "<?= \yii\helpers\Url::to('order/check-auth') ?>";
+        var type = $(this).attr('data-type');
+        if (type == 4) {
+            mui.alert('暂未开通');
+            return false;
+        }
+        $.get(url, {type: type}, function (response) {
+            if (response.code == 0) {
+                mui.alert(response.message);
+                return false;
+            } else {
+                window.location.href = response.url
+            }
+        }, 'json')
+    })
+
+</script>
+</body>
+</html>

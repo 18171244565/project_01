@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <title><?= WEB_TITLE ?> | 我的</title>
+    <link href="/tpl/css/mui.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/tpl/css/own.css">
+    <link rel="stylesheet" href="/tpl/css/public.css">
+    <link rel="stylesheet" href="/tpl/css/index.css">
+    <link rel="stylesheet" href="/tpl/css/mine.css">
+
+</head>
+<body>
+<div class="main">
+    <header class="head own-main-background-color">
+        <h1 id="nav-title" class="mui-title">我的</h1>
+    </header>
+    <div class="content mui-content">
+        <div class="mui-scroll-wrapper">
+            <div class="mui-scroll" style="padding: 15px;">
+                <div class="topbox">
+                    <div class="headimg">
+                        <a href="#" id="person" style="background: url(/tpl/img/mine/iconbg.png)">
+                            <img id="myimg">
+                        </a>
+                    </div>
+                    <div class="toptext">
+                        <p>手机：<?= $data['mobile'] ?></p>
+                        <p>姓名：<?= $data['name'] ? $data['name'] : '没有填写' ?></p>
+                    </div>
+                    <?php if ($data['auth'] == 1) { ?>
+                        <a class="norenzheng" href="<?= \yii\helpers\Url::to(['au']) ?>" style="color:#666">未认证</a>
+                    <?php } else { ?>
+                        <a class="renzheng" href="<?= \yii\helpers\Url::to(['message']) ?>"
+                           style="color:#00b738">已认证</a>
+                    <?php } ?>
+
+                    <ul class="topbtnbox">
+                        <li><a href="<?= \yii\helpers\Url::to(['notice']) ?>" class="iconfont" id="message"
+                               data-title="消息通知">&#xe614;</a>
+                            <?php if ($messageTotal > 0): ?>
+                                <div class="redcircle"></div>
+                            <?php endif; ?>
+                        </li>
+                        <li><a href="<?= \yii\helpers\Url::to(['setting']) ?>" class="iconfont" id="setting"
+                               data-title="设置">&#xe726;</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="numberbox"><p>锁仓总额 <span class="renzheng sign" style="color:#00b738">签到</span></p>
+                    <div v-text="vrcToTal" style="font-size: 16px;"><?= number_format($data['money_lock'], 5) ?>
+                    </div>
+                    <ul style="padding: 0 .2rem;">
+                        <li><span class="iconfont" id="keyong">&#xe622;</span><span>可用<?= MONEY_NAME ?>
+                                ：<?= $data['money'] ?></span></li>
+                        <li><span class="iconfont" id="dongjie">&#xe701;</span><span>冻结<?= MONEY_NAME ?>
+                                ：<?= number_format($s, 5) ?></span>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="gongnengbox">
+                    <li><a href="<?= \yii\helpers\Url::to(['message']) ?>" data-title="个人资料">
+                            <div class="icon"><i class="smallicon1"></i></div>
+                            <span>个人资料</span></a></li>
+                    <li><a href="<?= \yii\helpers\Url::to(['money-log']) ?>" data-title="账单中心">
+                            <div class="icon"><i class="smallicon2"></i></div>
+                            <span>账单中心</span></a></li>
+                    <li><a href="<?= \yii\helpers\Url::to(['custom']) ?>" data-title="客服中心">
+                            <div class="icon"><i class="smallicon4"></i></div>
+                            <span>客服中心</span></a></li>
+                    <li id="shop"><a href="#" data-title="商城">
+                            <div class="icon"><i class="smallicon3"></i></div>
+                            <span>商城</span></a></li>
+                    <li><a href="<?= \yii\helpers\Url::to(['ab']) ?>" data-title="公告">
+                            <div class="icon"><i class="smallicon5"></i></div>
+                            <span>公告</span></a></li>
+                    <li><a href="<?= \yii\helpers\Url::to(['spread']) ?>" data-title="我的推广">
+                            <div class="icon"><i class="smallicon6"></i></div>
+                            <span>我的推广</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <?php include_once './tpl/nav.php' ?>
+</div>
+
+<script src="/tpl/js/libs/jquery.min.js" charset="utf-8"></script>
+<script src="/tpl/js/mui.min.js"></script>
+<script src="/tpl/js/function.js" charset="utf-8"></script>
+<script>
+    var sgin_url = "<?= \yii\helpers\Url::to(['sign']) ?>";
+    $('.sign').click(function () {
+        $.get(sgin_url, {}, function (data) {
+            alert(data.message);
+        }, 'json');
+        return false;
+    });
+    mui("#shop").on("tap", "a", function () {
+        mui.alert('开发中');
+    });
+    mui("#san").on("tap", "a", function () {
+        mui.alert('开发中');
+    });
+</script>
+</body>
+</html>

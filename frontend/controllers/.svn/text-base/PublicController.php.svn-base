@@ -1,0 +1,250 @@
+<?php
+
+/* 
+ * @author:Bobo.
+ * @date:2017-3-3 8:44:44
+ * @qq:836044851@qq.com
+ */
+
+namespace frontend\controllers;
+
+use common\models\Member;
+use common\models\WebConfig;
+use frontend\models\RegisterModel;
+use frontend\models\LoginModel;
+use Yii;
+use yii\helpers\Json;
+
+class PublicController extends CommonController
+{
+    //登录页面
+    public function actionLogin()
+    {
+        $model = new LoginModel();
+        $request = Yii::$app->request;
+        if ($request->isAjax) {
+            // 获取市场交易时间 判断是否能登录
+            $webConfig = new WebConfig();
+            $w_s = $webConfig->getConfigByKey('w_s');
+            $stime = strtotime($w_s);
+            $w_e = $webConfig->getConfigByKey('w_e');
+            $etime = strtotime($w_e);
+            $time = time();
+            if ($time < $stime || $time > $etime) {
+                $message = $webConfig->getConfigByKey('w_n');
+                echo Json::encode(['code' => '1', 'message' => $message]);
+                exit();
+            }
+
+            $model->mobile = \Yii::$app->request->post()['mobile'];
+            $model->pwd = \Yii::$app->request->post()['pwd'];
+            if ($model->login()) {
+                Member::updateAll(['login_time' => time()], ['mobile' => $model->mobile]);
+                $data = ['code' => 0, 'message' => '登录成功'];
+            } else {
+                $data = ['code' => 1, 'message' => '用户名或者密码错误!'];
+            }
+            echo Json::encode($data);
+            exit;
+        }
+        return $this->render('login');
+    }
+
+    /**
+     * 注册页面
+     * @return type
+     */
+    public function actionRegister()
+    {
+        $model = new RegisterModel();
+        if (Yii::$app->request->isAjax) {
+            $model->request_ip = $this->request_ip;
+            $model->mobile = Yii::$app->request->post('phone', '');
+            $model->verify_code = Yii::$app->request->post('verify_code');
+            $model->pwd = Yii::$app->request->post('pwd');
+            $model->charge_passwd = Yii::$app->request->post('charge_passwd');
+            $model->p_mobile = Yii::$app->request->post('p_mobile');
+            if (!$model->p_mobile)
+                exit(json_encode(['code' => 1, 'message' => '请填写推荐人']));
+            $this->checkRegisterOpen();
+            $this->checkRegisterIp();
+            $model->register();
+        } else {
+            $puid = Yii::$app->request->get('puid', '');
+            $p_mobile = '';
+            if ($puid) {
+                $id = base64_decode($puid);
+                $member = new Member();
+                $data = $member::find()->select('mobile')->where(['id' => $id])->one();
+                if ($data) $p_mobile = $data['mobile'];
+            }
+            return $this->render('reg', ['p_mobile' => $p_mobile]);
+        }
+    }
+
+    protected function checkRegisterOpen()
+    {
+        // 注册是否开启
+        $webConfig = new WebConfig();
+        $r_open = $webConfig->getConfigByKey('r_open');
+        if ($r_open != 1) {
+            echo Json::encode(['code' => '1', 'message' => '平台注册关闭']);
+            exit();
+        }
+        return true;
+    }
+
+    protected function checkRegisterIp()
+    {
+        // 注册IP限制
+        $webConfig = new WebConfig();
+        $r_number = (int)$webConfig->getConfigByKey('r_number');
+        if ($r_number > 0) {
+            $count = Member::find()->where(['create_ip' => $this->request_ip])->count();
+            if ($count >= $r_number) {
+                echo Json::encode(['code' => '1', 'message' => 'IP注册限制']);
+                exit();
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     * 发送验证码(注册)
+     */
+    public function actionSendCode()
+    {
+        $model = new RegisterModel();
+        if (Yii::$app->request->isAjax) {
+            $this->checkRegisterOpen();
+            $phone = Yii::$app->request->post('phone');
+            $model->CommonCheckMobile($phone);
+            $code = mt_rand(1000, 9999);
+            //$this->sendCode($code, $phone);// 发送验证码
+            Yii::$app->session->set('code', $code);
+
+            //$url = 'http://' . $_SERVER['HTTP_HOST'] . '/aliyun/demo/sendSms.php?mobile=' . $phone . '&code=' . $code;
+            //@file_get_contents($url);
+
+            $this->sendCode($code, $phone);
+
+            // $_SESSION['code'] = $code;
+            exit(json_encode(['code' => 1, 'message' => '验证码已经发送,请注意查收!']));
+            //exit(json_encode(['code' => 1, 'message' => '验证码已经发送,请注意查收!验证码是：' . $code]));
+        }
+    }
+
+    /**
+     * 发送验证码(绑定银行卡)
+     */
+    public function actionSendCodeByBank()
+    {
+        $model = new RegisterModel();
+        if (Yii::$app->request->isAjax) {
+            $phone = Yii::$app->request->post('phone');
+            $code = mt_rand(1000, 9999);
+            //$this->sendCode($code, $phone);// 发送验证码
+            Yii::$app->session->set('code', $code);
+
+
+            //$url = 'http://' . $_SERVER['HTTP_HOST'] . '/aliyun/demo/sendSms.php?mobile=' . $phone . '&code=' . $code;
+            //@file_get_contents($url);
+            $this->sendCode($code, $phone);
+
+            // $_SESSION['code'] = $code;
+            exit(json_encode(['code' => 1, 'message' => '验证码已经发送,请注意查收!']));
+            //exit(json_encode(['code' => 1, 'message' => '验证码已经发送,请注意查收!验证码是：' . $code]));
+        }
+    }
+
+    /**
+     * 发送验证码--忘记密码
+     */
+    public function actionSendForgetCode()
+    {
+        $model = new RegisterModel();
+        if (Yii::$app->request->isAjax) {
+            $phone = Yii::$app->request->post('phone');
+            $user_info = $model->findOneData('inv_member', "mobile='$phone'");
+            !$user_info && exit(json_encode(['code' => 1, 'message' => '该账户不存在']));
+            ($user_info['status'] == 2) && exit(json_encode(['code' => 1, 'message' => '该账户已经被冻结']));
+            $code = mt_rand(1000, 9999);
+            //$this->sendCode($code, $phone);// 发送验证码
+            Yii::$app->session->set('forget_code', $code);
+            Yii::$app->session->set('forget_phone', $phone);
+
+            //$url = 'http://' . $_SERVER['HTTP_HOST'] . '/aliyun/demo/sendSms.php?mobile=' . $phone . '&code=' . $code;
+            //@file_get_contents($url);
+            $this->sendCode($code, $phone);
+
+            exit(json_encode(['code' => 0, 'message' => '验证码已经发送,请注意查收!']));
+            //exit(json_encode(['code' => 0, 'message' => '验证码已经发送,请注意查收!验证码：' . $code]));
+        }
+
+    }
+
+    public function actionForget()
+    {
+        $model = new RegisterModel();
+        $request_obj = Yii::$app->request;
+        if ($request_obj->isAjax) {
+            $phone = $request_obj->post('phone');
+            $verify_code = $request_obj->post('verify_code');
+            $passwd = $request_obj->post('passwd');
+            $rpasswd = $request_obj->post('rpasswd');
+            if (!$passwd) exit(json_encode(['code' => 1, 'message' => '密码不能为空']));
+            if ($passwd != $rpasswd) exit(json_encode(['code' => 1, 'message' => '两次密码不一致']));
+            $user_info = $model->findOneData('inv_member', "mobile='$phone' and `status`=1");
+            !$user_info && exit(json_encode(['code' => 1, 'message' => '该账户异常']));
+            ($verify_code != Yii::$app->session->get('forget_code')) && exit(json_encode(['code' => 1, 'message' => '验证码不正确']));
+            Yii::$app->session->remove('forget_code');
+            Member::updateAll(['passwd' => md5($passwd)], ['mobile' => $phone]);
+            exit(json_encode(['code' => 0, 'message' => '密码修改成功']));
+        } else {
+            return $this->renderPartial('forget');
+        }
+
+    }
+
+    //退出
+    public function actionLogOut()
+    {
+        //清空session
+        Yii::$app->session->remove('username');
+        $jump_url = Yii::$app->urlManager->createUrl(['public/login']);
+        $this->redirect($jump_url);
+    }
+
+    // 发送验证码
+    protected function sendCode($code, $phone)
+    {
+        $webConfig = new WebConfig();
+        $apikey = $webConfig->getConfigByKey('sms_apikey');
+        $key = $webConfig->getConfigByKey('sms_key');
+        $content = "【{$key}】您的验证码是{$code}";
+
+        $ch = curl_init();
+
+        /* 设置验证方式 */
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept:text/plain;charset=utf-8',
+            'Content-Type:application/x-www-form-urlencoded', 'charset=utf-8'));
+        /* 设置返回结果为流 */
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        /* 设置超时时间*/
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+
+        /* 设置通信方式 */
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        // 发送短信
+        $data = array('text' => $content, 'apikey' => $apikey, 'mobile' => $phone);
+        curl_setopt($ch, CURLOPT_URL, 'https://sms.yunpian.com/v2/sms/single_send.json');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+    }
+} 

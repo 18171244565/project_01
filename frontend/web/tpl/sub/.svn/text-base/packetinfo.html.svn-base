@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+	<link href="../css/mui.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="../css/own.css">
+	<link rel="stylesheet" href="../css/public.css">
+	<link rel="stylesheet" href="../css/packetinfo.css">
+
+</head>
+<body>
+<header class="mui-bar mui-bar-nav own-main-background-color" style="position: static;">
+	<span onclick="javascript :history.go(-1);" class="back mui-icon mui-icon-left-nav mui-pull-left"></span>
+	<h1 class="mui-title">红包规则</h1>
+</header>
+<div class="mui-content">
+	<ul class="bottombox">
+		<img src="../img/sub/packetinfo.jpg" width="100%">
+	</ul>
+</div>
+<script src="../js/mui.min.js"></script>
+<script src="../js/libs/jquery.min.js" charset="utf-8"></script>
+<script src="../js/libs/vue.min.js" charset="utf-8"></script>
+<script src="../js/sub/packetinfo.js" charset="utf-8"></script>
+<script src="../js/function.js" charset="utf-8"></script>
+<script></script>
+</body>
+</html>

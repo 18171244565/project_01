@@ -1,0 +1,217 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>矿机</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+	<link href="../css/mui.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="../css/own.css">
+	<link rel="stylesheet" href="../css/index.css">
+	<link rel="stylesheet" href="../css/public.css">
+	<link rel="stylesheet" href="../css/kuangji.css">
+	<style>
+		.mycontent {
+			z-index: 2;
+			height: 100%;
+		}
+		
+		.kuangjibox {
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+		}
+		
+		.showbox {
+			flex: 1;
+			overflow-y: scroll;
+		}
+	</style>
+</head>
+<body>
+<div class="main">
+	<header class="head own-main-background-color">
+		<h1 id="nav-title" class="mui-title">矿机</h1>
+	</header>
+	<div class="content mui-content">
+		<!--<div class="dibu">-->
+		<!--<div v-text="myid"></div>-->
+		<!--<div v-text="myid"></div>-->
+		<!--<div v-text="myid"></div>-->
+		<!--</div>-->
+		<div class="mycontent">
+			<div class="kuangjibox">
+				<ul class="kuangjinum">
+					<li><p>个人算力(T)</p>
+						<div v-text="sumPower==null?'0':sumPower">0</div>
+					</li>
+					<li><p>个人产量(VRC/天)</p>
+						<div v-text="profitDay==null?'0':profitDay">0</div>
+					</li>
+				</ul>
+				<ul class="tapbox">
+					<li class="kj-nav tapactive" data-index="show1"><span>进行中<i v-text="'('+ingnum+')'"></i></span></li>
+					<li class="kj-nav" data-index="show2"><span>已停止<i v-text="'('+endnum+')'"></i></span></li>
+				</ul>
+				
+				<ul class="showbox" s style="position: relative;height: 200px;">
+					<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<li id="show1" class="show showactive">
+						
+						<div class="scw">
+							<div class="ms" id="scroll1">
+								<table border="" cellspacing="" cellpadding="">
+									<tr>
+										<th>状态</th>
+										<th>机号</th>
+										<th>类型</th>
+										<th>运行时间(天)</th>
+										<th>算力</th>
+										<th>产量(VRC/天)</th>
+									</tr>
+									<tr class="ing" v-for="item in ing">
+										<td>
+											<div></div>
+										</td>
+										<td v-text="item.myModel">测试</td>
+										<td v-text="item.nameType">测试</td>
+										<td v-text="item.hour">测试</td>
+										<td v-text="item.power">测试</td>
+										<td v-text="item.profitDay">测试</td>
+									</tr>
+									<tr class="ing" v-for="item in ing">
+										<td>
+											<div></div>
+										</td>
+										<td v-text="item.myModel">测试</td>
+										<td v-text="item.nameType">测试</td>
+										<td v-text="item.hour">测试</td>
+										<td v-text="item.power">测试</td>
+										<td v-text="item.profitDay">测试</td>
+									</tr>
+									<tr class="ing" v-for="item in ing">
+										<td>
+											<div></div>
+										</td>
+										<td v-text="item.myModel">测试</td>
+										<td v-text="item.nameType">测试</td>
+										<td v-text="item.hour">测试</td>
+										<td v-text="item.power">测试</td>
+										<td v-text="item.profitDay">测试</td>
+									</tr>
+									<tr class="ing" v-for="item in ing">
+										<td>
+											<div></div>
+										</td>
+										<td v-text="item.myModel">测试</td>
+										<td v-text="item.nameType">测试</td>
+										<td v-text="item.hour">测试</td>
+										<td v-text="item.power">测试</td>
+										<td v-text="item.profitDay">测试</td>
+									</tr>
+									<tr class="ing" v-for="item in ing">
+										<td>
+											<div></div>
+										</td>
+										<td v-text="item.myModel">测试</td>
+										<td v-text="item.nameType">测试</td>
+										<td v-text="item.hour">测试</td>
+										<td v-text="item.power">测试</td>
+										<td v-text="item.profitDay">测试</td>
+									</tr>
+									<tr class="ing" v-for="item in ing">
+										<td>
+											<div></div>
+										</td>
+										<td v-text="item.myModel">测试</td>
+										<td v-text="item.nameType">测试</td>
+										<td v-text="item.hour">测试</td>
+										<td v-text="item.power">测试</td>
+										<td v-text="item.profitDay">测试</td>
+									</tr>
+									<tr class="ing" v-for="item in ing">
+										<td>
+											<div></div>
+										</td>
+										<td v-text="item.myModel">测试</td>
+										<td v-text="item.nameType">测试</td>
+										<td v-text="item.hour">测试</td>
+										<td v-text="item.power">测试</td>
+										<td v-text="item.profitDay">测试</td>
+									</tr>
+									<tr class="ing" v-for="item in ing">
+										<td>
+											<div></div>
+										</td>
+										<td v-text="item.myModel">测试</td>
+										<td v-text="item.nameType">测试</td>
+										<td v-text="item.hour">测试</td>
+										<td v-text="item.power">测试</td>
+										<td v-text="item.profitDay">测试</td>
+									</tr>
+								
+								</table>
+							</div>
+						</div>
+					</li>
+					<li id="show2" class="show">
+						
+						<div class="scw">
+							<div class="ms" id="scroll2">
+								<table border="" cellspacing="" cellpadding="">
+									<tr>
+										<th>状态</th>
+										<th>机号</th>
+										<th>类型</th>
+										<th>运行时间(天)</th>
+										<th>算力</th>
+										<th>产量(VRC/天)</th>
+									</tr>
+									<tr class="finish" v-for="item2 in end">
+										<td>
+											<div></div>
+										</td>
+										<td v-text="item2.myModel"></td>
+										<td v-text="item2.nameType"></td>
+										<td v-text="item2.hour"></td>
+										<td v-text="item2.power"></td>
+										<td v-text="item2.profitDay"></td>
+									</tr>
+								</table>
+					</li>
+					</div>
+				</div>
+				</ul>
+				
+			</div>
+		</div>
+		<div class="shuaxin"><span class="iconfont" style="font-size:.4rem">&#xe611;</span></div>
+	
+	</div>
+	
+	<div class="footer mui-bar mui-bar-tab my-bar">
+		<a class="mui-tab-item" href="../index.html"><span class="mui-icon iconfont firsticon"
+														   style="font-size:.4rem;padding-top:.05rem;">&#xe616;</span>
+			<span class="mui-tab-label">机市</span> </a>
+		<a class="mui-tab-item" href="kuangji.html"><span class="mui-icon iconfont" style="color: rgba(0,207,231,1);">&#xe694;</span>
+			<span class="mui-tab-label">矿机</span> </a>
+		<a class="mui-tab-item" href="kuangchi.html"><span class="mui-icon iconfont">&#xe612;</span> <span
+				class="mui-tab-label">矿池</span> </a>
+		<a class="mui-tab-item" href="kuangshi.html"><span class="mui-icon iconfont">&#xe607;</span> <span
+				class="mui-tab-label">矿市</span> </a>
+		<a class="mui-tab-item mui-active" href="mine.html"><span class="mui-icon iconfont">&#xe60a;</span> <span
+				class="mui-tab-label">我的</span></a>
+	</div>
+</div>
+</body>
+<script src="../js/libs/jquery.min.js" charset="utf-8"></script>
+<script src="../js/mui.min.js"></script>
+<script src="../js/function.js" charset="utf-8"></script>
+<script charset="UTF-8">
+	//导航切换
+	$(".kj-nav").click(function () {
+		$(this).addClass("tapactive").siblings().removeClass("tapactive");
+		$(".show").hide().eq($(this).index()).show();
+	})
+</script>
+</html>

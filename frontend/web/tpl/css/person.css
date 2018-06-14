@@ -1,0 +1,254 @@
+.infobox li>div,
+.infobox li>p {
+    font-size: .24rem;
+    text-align: center
+}
+
+.infobox li>div,
+.infobox li>p,
+.lists li i,
+.xia {
+    text-align: center
+}
+
+.lists li b,
+.two li b {
+    font-style: normal;
+    font-weight: 400
+}
+
+.own-main-background-color {
+    position: fixed;
+    top: 0;
+    z-index: 999
+}
+
+.own-main-background-color #nav-title {
+    color: #00CFE7
+}
+
+#person {
+    padding-bottom: 51px;
+	background-color:#f7f7f7;
+}
+
+.lists,
+.two {
+	margin-top:0.2rem;
+    padding: 0 .3rem;
+	background-color:#FFFFFF;
+}
+
+.headbox {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 1.2rem;
+    height: 1.2rem;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    margin:0 0.2rem;
+    overflow: hidden
+}
+
+.infobox,
+.lists li {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox
+}
+
+.lists li,
+.two li {
+    border-bottom: .02rem solid #dcdcdc;
+}
+
+.headbox img {
+    width: 1.5rem;
+    height: 1.5rem;
+    vertical-align: middle;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%
+}
+
+.infobox {
+    display: flex;
+    padding: .3rem 0 .62rem;
+	background-color:#3a80fb;
+	overflow:hidden;
+}
+
+.infobox li {
+    flex: 1
+}
+
+.infobox li>p {
+    color: #ffffff;
+	text-align:left;
+	padding-top:0.2rem;
+}
+
+.infobox li>div {
+    color: #D0D3D7;
+    margin-top: .3rem
+}
+
+.lists li {
+    display: block;
+    height: .8rem
+}
+
+.lists li a,
+.two li {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox
+}
+
+.lists>li>a {
+    /*position: relative;*/
+    display: block;
+    height: .8rem;
+    line-height: .8rem;
+    width: 100%;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center
+}
+.telcheck{
+    /*position: relative;*/
+}
+.person-text{
+    position: static;
+    display: block;
+	margin-top:0.1rem;
+    /*top: 3px;*/
+    /*right: 5px;*/
+}
+.lists li i {
+    width: 1.13rem;
+    height: .41rem;
+    line-height: .4rem;
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -moz-border-radius: .2rem;
+    -webkit-border-radius: .2rem;
+    border-radius: .2rem;
+    font-size: .22rem;
+    font-style: normal;
+    margin-left: .3rem
+}
+
+.lists li span {
+    font-size: .24rem;
+    color: #D0D3D7
+}
+
+.lists li b {
+    color: #02D2F5;
+    font-size: .24rem;
+    display: inline-block;
+}
+
+.xia {
+    font-size: .5rem;
+    color: rgba(2, 210, 245, .25);
+    height: .6rem
+}
+
+.two li {
+    display: flex;
+}
+
+.two li a {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    height: .8rem;
+	line-height:.8rem;
+    width: 100%;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center
+}
+.two li a b img{height:0.5rem; float:left; margin:0.1rem 0.15rem;}
+.two li span {
+    font-size: .24rem;
+    color: #D0D3D7
+}
+
+.two li b {
+    color: #777777;
+    font-size: .24rem
+}
+
+.succ {
+    color: #3a80fb;
+    border: .02rem solid #3a80fb
+}
+
+.none {
+    color: #666;
+    border: .02rem solid #666
+}
+.my-lists{overflow:hidden; background-color:#FFFFFF;}
+.my-lists>li{
+	width:33%;
+	float:left;
+	text-align:center;
+	padding:0.4rem 0;
+	overflow:hidden;
+}
+.my-lists>li>a{
+    color: #777777;
+	line-height:0.4rem;
+}
+.my-lists>li>a b{font-weight:normal; margin-bottom:0.2rem;}
+.my-lists>li>a img{height:0.4rem;}
+.my-lists>li>a i{
+    display: inline-block;
+    width: 1rem;
+    height: .41rem;
+    line-height: .4rem;
+    border-radius: .2rem;
+    font-size: .2rem;
+    margin-left: .3rem;
+    text-align: center;
+}
+.my-lists>li>a span{
+}
+.succ{
+    display: inline-block !important;
+    width: 1.4rem !important;
+    height: .41rem !important;
+    line-height: .4rem !important;
+    border-radius: .2rem !important;
+    font-size: .2rem !important;
+    text-align: center !important;
+}

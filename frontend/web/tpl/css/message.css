@@ -1,0 +1,106 @@
+.edit, .middlebox {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	-webkit-box-align: center
+}
+
+.edit, .title {
+	font-size: .26rem
+}
+
+.own-main-background-color {
+	position: fixed;
+	top: 0;
+	z-index: 999
+}
+
+.own-main-background-color #nav-title {
+	color: #00CFE7
+}
+
+.edit {
+	color: #777777;
+	position: absolute;
+	right: .3rem;
+	display: flex;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+	top: 0;
+	bottom: 0
+}
+
+.mui-scroll {
+	padding: 0 .3rem
+}
+
+.messagebox li {
+	margin-bottom: .3rem
+}
+
+.messlist {
+	padding: .26rem 0;
+	display: block;
+	border-bottom:0.02rem solid #dcdcdc;
+}
+
+.middlebox {
+	display: flex;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+	position: relative
+}
+
+.title {
+	color: #02D2F5;
+	margin-left: .4rem
+}
+
+.jiantou {
+	font-size: .28rem;
+	color: #777777;
+	position: absolute;
+	right: .16rem
+}
+
+.infocon, .time {
+	color: #777777;
+	font-size: .24rem
+}
+
+.time {
+	text-align: center
+}
+
+.info {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+	padding: .15rem
+}
+
+.red {
+	width: .14rem;
+	height: .14rem;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	background: red;
+	margin-right: .1rem
+}
+.mui-scroll-wrapper {
+	position: absolute;
+	z-index: 2;
+	top: 40px;
+	bottom: 0;
+	left: 0;
+	overflow: hidden;
+	width: 100%;
+}

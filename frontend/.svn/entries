@@ -1,0 +1,83 @@
+10
+
+dir
+3
+svn://localhost/xnb568994334/frontend
+svn://localhost/xnb568994334
+
+
+
+2018-03-27T10:34:55.407759Z
+3
+a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+d39b97ff-628e-4148-9796-25eeee3c35c7
+
+assets
+dir
+
+models
+dir
+
+runtime
+dir
+
+config
+dir
+
+controllers
+dir
+
+codeception.yml
+file
+
+
+
+
+2018-03-27T09:58:37.714304Z
+fa248a45aae2edb383da71f8ccf97e52
+2018-03-27T09:58:36.353048Z
+1
+a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+301
+
+views
+dir
+
+web
+dir
+

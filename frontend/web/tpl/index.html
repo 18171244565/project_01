@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+		<title>VRC</title>
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/public.css">
+		<link rel="stylesheet" href="css/index.css">
+		<link rel="stylesheet" href="css/jishi.css">
+	</head>
+	<body class="own-gray-color">
+	<div class="main">
+		
+		
+		<header class="head own-main-background-color">
+			<h1 id="nav-title" class="mui-title">首页</h1>
+		</header>
+		
+		<div class="content jishi">
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<!-- 机市 -->
+					<div class="" id="jishi">
+						<ul class="jsitems">
+							<li v-for="(items,index) in ds">
+								<div class="jsleft"><img src="img/01.png"></div>
+								<div class="jsmiddle">
+									<h2 v-text="items.name">迷你云矿机</h2>
+									<p v-text="'算力：'+items.power">算力：1T</p>
+									<p v-text="'运行周期：'+items.cycle+'天'">运行周期：180天</p>
+									<p v-text="'收益总量：'+items.profit">收益总量：1VRC</p>
+								</div>
+								<div class="jsright"><span class="buybtn"><i class="iconfont">&#xe601;</i><span v-text="items.vrc+'VRC'" v-on:tap="buy(items.id,$event)">10 VRC</span></span>
+								</div>
+							</li>
+							<li v-for="(items,index) in ds">
+								<div class="jsleft"><img src="img/01.png"></div>
+								<div class="jsmiddle">
+									<h2 v-text="items.name">迷你云矿机</h2>
+									<p v-text="'算力：'+items.power">算力：1T</p>
+									<p v-text="'运行周期：'+items.cycle+'天'">运行周期：180天</p>
+									<p v-text="'收益总量：'+items.profit">收益总量：1VRC</p>
+								</div>
+								<div class="jsright"><span class="buybtn"><i class="iconfont">&#xe601;</i><span v-text="items.vrc+'VRC'" v-on:tap="buy(items.id,$event)">10 VRC</span></span>
+								</div>
+							</li>
+							<li v-for="(items,index) in ds">
+								<div class="jsleft"><img src="img/01.png"></div>
+								<div class="jsmiddle">
+									<h2 v-text="items.name">迷你云矿机</h2>
+									<p v-text="'算力：'+items.power">算力：1T</p>
+									<p v-text="'运行周期：'+items.cycle+'天'">运行周期：180天</p>
+									<p v-text="'收益总量：'+items.profit">收益总量：1VRC</p>
+								</div>
+								<div class="jsright"><span class="buybtn"><i class="iconfont">&#xe601;</i><span v-text="items.vrc+'VRC'" v-on:tap="buy(items.id,$event)">10 VRC</span></span>
+								</div>
+							</li>
+							<li v-for="(items,index) in ds">
+								<div class="jsleft"><img src="img/01.png"></div>
+								<div class="jsmiddle">
+									<h2 v-text="items.name">迷你云矿机</h2>
+									<p v-text="'算力：'+items.power">算力：1T</p>
+									<p v-text="'运行周期：'+items.cycle+'天'">运行周期：180天</p>
+									<p v-text="'收益总量：'+items.profit">收益总量：1VRC</p>
+								</div>
+								<div class="jsright"><span class="buybtn"><i class="iconfont">&#xe601;</i><span v-text="items.vrc+'VRC'" v-on:tap="buy(items.id,$event)">10 VRC</span></span>
+								</div>
+							</li>
+							<li v-for="(items,index) in ds">
+								<div class="jsleft"><img src="img/01.png"></div>
+								<div class="jsmiddle">
+									<h2 v-text="items.name">迷你云矿机</h2>
+									<p v-text="'算力：'+items.power">算力：1T</p>
+									<p v-text="'运行周期：'+items.cycle+'天'">运行周期：180天</p>
+									<p v-text="'收益总量：'+items.profit">收益总量：1VRC</p>
+								</div>
+								<div class="jsright"><span class="buybtn"><i class="iconfont">&#xe601;</i><span v-text="items.vrc+'VRC'" v-on:tap="buy(items.id,$event)">10 VRC</span></span>
+								</div>
+							</li>
+							<li v-for="(items,index) in ds">
+								<div class="jsleft"><img src="img/01.png"></div>
+								<div class="jsmiddle">
+									<h2 v-text="items.name">迷你云矿机</h2>
+									<p v-text="'算力：'+items.power">算力：1T</p>
+									<p v-text="'运行周期：'+items.cycle+'天'">运行周期：180天</p>
+									<p v-text="'收益总量：'+items.profit">收益总量：1VRC</p>
+								</div>
+								<div class="jsright"><span class="buybtn"><i class="iconfont">&#xe601;</i><span v-text="items.vrc+'VRC'" v-on:tap="buy(items.id,$event)">10 VRC</span></span>
+								</div>
+							</li>
+						</ul>
+					</div>
+				
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		<div class="footer mui-bar mui-bar-tab my-bar">
+			<a class="mui-tab-item" href="index.html"><span class="mui-icon iconfont firsticon" style="font-size:.4rem;padding-top:.05rem;color: rgba(0,207,231,1);">&#xe616;</span> <span class="mui-tab-label">机市</span> </a>
+			<a class="mui-tab-item" href="barItem/kuangji.html"><span class="mui-icon iconfont">&#xe694;</span> <span class="mui-tab-label">矿机</span> </a>
+			<a class="mui-tab-item" href="barItem/kuangchi.html"><span class="mui-icon iconfont">&#xe612;</span> <span class="mui-tab-label">矿池</span> </a>
+			<a class="mui-tab-item" href="barItem/kuangshi.html"><span class="mui-icon iconfont">&#xe607;</span> <span class="mui-tab-label">矿市</span> </a>
+			<a class="mui-tab-item mui-active" href="barItem/mine.html"><span class="mui-icon iconfont">&#xe60a;</span> <span class="mui-tab-label">我的</span></a>
+		</div>
+	</div>
+	</body>
+	<script src="js/libs/jquery.min.js" charset="utf-8"></script>
+	<script src="js/mui.min.js" charset="UTF-8"></script>
+	<script src="js/function.js" charset="utf-8"></script>
+	<script>
+		$(".jsright").click(function () {
+			mui.confirm('确认购买当前矿机','购买矿机',['取消','确认'],function (e) {
+				e.index
+			},'div');
+		});
+		
+	</script>
+</html>
