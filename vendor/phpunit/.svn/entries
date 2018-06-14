@@ -1,0 +1,49 @@
+10
+
+dir
+3
+svn://localhost/xnb568994334/vendor/phpunit
+svn://localhost/xnb568994334
+
+
+
+2018-03-27T09:58:36.353048Z
+1
+a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+d39b97ff-628e-4148-9796-25eeee3c35c7
+
+php-text-template
+dir
+
+php-timer
+dir
+
+phpunit-mock-objects
+dir
+
+phpunit
+dir
+
+php-code-coverage
+dir
+
+php-file-iterator
+dir
+
+php-token-stream
+dir
+

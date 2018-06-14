@@ -1,0 +1,123 @@
+10
+
+dir
+3
+svn://localhost/xnb568994334/vendor/phpspec/prophecy/spec/Prophecy
+svn://localhost/xnb568994334
+
+
+
+2018-03-27T09:58:36.353048Z
+1
+a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+d39b97ff-628e-4148-9796-25eeee3c35c7
+
+Prediction
+dir
+
+Argument
+dir
+
+ProphetSpec.php
+file
+
+
+
+
+2018-03-27T09:58:42.911304Z
+08947c85d60fb6a57a2369c439294c02
+2018-03-27T09:58:36.353048Z
+1
+a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2646
+
+ArgumentSpec.php
+file
+
+
+
+
+2018-03-27T09:58:42.911304Z
+afeb64de3c51a7ffa77c9e3e92481673
+2018-03-27T09:58:36.353048Z
+1
+a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3434
+
+Comparator
+dir
+
+Prophecy
+dir
+
+Call
+dir
+
+Doubler
+dir
+
+Util
+dir
+
+Exception
+dir
+
+Promise
+dir
+

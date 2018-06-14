@@ -1,0 +1,126 @@
+10
+
+dir
+3
+svn://localhost/xnb568994334/vendor/symfony/console/Tests
+svn://localhost/xnb568994334
+
+
+
+2018-03-27T09:58:36.353048Z
+1
+a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+d39b97ff-628e-4148-9796-25eeee3c35c7
+
+Helper
+dir
+
+Input
+dir
+
+Logger
+dir
+
+Output
+dir
+
+Style
+dir
+
+TerminalTest.php
+file
+
+
+
+
+2018-03-27T09:58:43.128304Z
+8624671c0d8a442ee9734bf8c1b1e7ef
+2018-03-27T09:58:36.353048Z
+1
+a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+832
+
+Formatter
+dir
+
+Tester
+dir
+
+Fixtures
+dir
+
+ApplicationTest.php
+file
+
+
+
+
+2018-03-27T09:58:43.128304Z
+c304c53ba97cd7769b4f48ce6b1d5168
+2018-03-27T09:58:36.353048Z
+1
+a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+55120
+
+Command
+dir
+
+Descriptor
+dir
+

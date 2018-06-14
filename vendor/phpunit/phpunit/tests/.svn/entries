@@ -1,0 +1,86 @@
+10
+
+dir
+3
+svn://localhost/xnb568994334/vendor/phpunit/phpunit/tests
+svn://localhost/xnb568994334
+
+
+
+2018-03-27T09:58:36.353048Z
+1
+a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+d39b97ff-628e-4148-9796-25eeee3c35c7
+
+Extensions
+dir
+
+Regression
+dir
+
+_files
+dir
+
+TextUI
+dir
+
+bootstrap.php
+file
+
+
+
+
+2018-03-27T09:58:40.101304Z
+138b94451592c0b3fdf5664b02efbc0d
+2018-03-27T09:58:36.353048Z
+1
+a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+143
+
+Runner
+dir
+
+Fail
+dir
+
+Framework
+dir
+
+Util
+dir
+
